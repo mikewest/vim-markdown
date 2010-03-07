@@ -15,6 +15,10 @@ not be plain text at all, but `code` of some sort.  Exciting, eh?
 So.  What else do I generally do in Markdown?  Ah, yes.  I [link][name] to 
 things.  Also, I [link](http://inline), and sometimes make lists.
 
+![this is an image](/it/is/i_swear.jpg "and this is a title")
+
+![this is also an image][with_id]
+
 1.  Lists are also an interesting part of Markdown, but they're a bit of a
     bitch to handle correctly in Vim.  This paragraph, for instance, has
     a nice indent on the side so that it looks clean.  It is decidedly
@@ -22,7 +26,7 @@ things.  Also, I [link](http://inline), and sometimes make lists.
     
     This paragraph is also not a code block, even though I can totally see
     how it _really_ looks like one to the vim syntax file.  I'll have to
-    think about how it ought be represented.  And, to make things even
+    think about how it ought be represented.  A\*nd, to make things even
     more complicated, code blocks can be:
     
         nested inside lists.  This is a code block.  It's
@@ -35,4 +39,4 @@ things.  Also, I [link](http://inline), and sometimes make lists.
 
 2.  This is a second list item, for completeness.
 
-
+[with_id]: /it/is/i_swear.jpg "This is a title"
