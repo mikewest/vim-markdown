@@ -20,6 +20,7 @@ syn match markdownLineStart "^[<@]\@!" nextgroup=@markdownBlock
 
 syn cluster markdownBlock contains=markdownH1,markdownH2,markdownH3,markdownH4,markdownH5,markdownH6,markdownBlockquote,markdownListMarker,markdownOrderedListMarker,markdownCodeBlock,markdownRule
 syn cluster markdownInline contains=markdownLineBreak,markdownLinkText,markdownItalic,markdownBold,markdownCode,markdownEscape,@htmlTop
+syn cluster markdownNestable contains=markdownNestedParagraph,markdownNestedCodeBlock,@markdownInline
 
 syn match markdownH1 ".\+\n=\+$" contained contains=@markdownInline,markdownHeadingRule
 syn match markdownH2 ".\+\n-\+$" contained contains=@markdownInline,markdownHeadingRule
@@ -35,11 +36,15 @@ syn region markdownH6 matchgroup=markdownHeadingDelimiter start="#######\@!" end
 
 syn match markdownBlockquote ">\s" contained nextgroup=@markdownBlock
 
-syn region markdownCodeBlock start="    \|\t" end="$" contained
+syn region markdownCodeBlock start="^\z(\s*\)    \|^\z(\t*\)\t" end="^\z1$"
+syn region markdownNestedCodeBlock start="^        \|^\t\t" end="^    $" contained
 
 " TODO: real nesting
-syn match markdownListMarker " \{0,4\}[-*+]\%(\s\+\S\)\@=" contained
-syn match markdownOrderedListMarker " \{0,4}\<\d\+\.\%(\s*\S\)\@=" contained
+syn region markdownOrderedList matchgroup=markdownOrderedListMarker start=" \{0,4}\<\d\+\.\%(\s*\S\)\@=" end="^\z1$" contains=@markdownNestable
+
+
+"syn match markdownListMarker " \{0,4\}[-*+]\%(\s\+\S\)\@=" contained
+"syn match markdownOrderedListMarker " \{0,4}\<\d\+\.\%(\s*\S\)\@=" contained
 
 syn match markdownRule "\* *\* *\*[ *]*$" contained
 syn match markdownRule "- *- *-[ -]*$" contained
@@ -93,6 +98,9 @@ hi def link markdownUrlTitleDelimiter     Delimiter
 hi def link markdownItalic                htmlItalic
 hi def link markdownBold                  htmlBold
 hi def link markdownCodeDelimiter         Delimiter
+hi def link markdownCode                  String
+hi def link markdownCodeBlock             String
+hi def link markdownNestedCodeBlock       String
 
 hi def link markdownEscape                Special
 
